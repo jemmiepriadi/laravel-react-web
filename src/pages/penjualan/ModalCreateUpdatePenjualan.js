@@ -6,9 +6,11 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Select from "react-select";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker';
 
 import { Button, InputGroup, Modal } from 'react-bootstrap';
-import { DatePicker } from 'antd';
+// import { DatePicker } from 'antd';
 
 import * as PenjualansApi from '../../apis/penjualanApi';
 // import { DatePicker } from 'rsuite';
@@ -106,10 +108,12 @@ class Body extends React.Component {
         if (this.state.NOTA) {
             body.ID_NOTA = this.state.NOTA
         }
+        console.log(this.state.TANGGAL)
         body.TGL = this.state.TANGGAL;
 
         body.KODE_PELANGGAN = this.state.KODE_PELANGGAN;
         body.SUBTOTAL = this.state.SUBTOTAL;
+        console.log(body)
         
         e.preventDefault();
         e.stopPropagation();
@@ -136,6 +140,8 @@ class Body extends React.Component {
     }
 
     render() {
+        const tanggal = moment(this.state.TANGGAL).toDate();
+        console.log(tanggal)
         if (this.state.isLoading) return <div>Loading data please wait ...</div>
         if (this.state.isError) return <div>THERE IS SOME ERROR. TRY TO LOAD IT AGAIN</div>
         if (this.state.isSubmitting) return <div>{this.state.isCreate ? "Creating Penjualan" : "Updating Penjualan"} please wait ...</div>
@@ -159,13 +165,16 @@ class Body extends React.Component {
                     <Form.Label column sm={'2'}>Penjualan TANGGAL:</Form.Label>        
                     <Col sm={'10'}>
                             <DatePicker
-                            selected={moment(this.state.TANGGAL)}
-                            onChange={date => this.handleChange("TANGGAL", date)}
+                            selected={moment(this.state.TANGGAL).toDate()}
+                            onChange={date => {
+                                console.log(date)
+                                this.handleChange("TANGGAL", date)}}
                             className='form-control'
                             // showTimeSelect
                             // placeholderText='Datetime start'
-                            // dateFormat='dd-MM-yyyy '
-                            format={'DD/MM/YYYY'}
+                            dateFormat='dd-MM-yyyy '
+                            // value={moment(this.state.TANGGAL)}
+                            // format={'DD/MM/YYYY'}
                         />
                     </Col>
                 </Form.Group>
