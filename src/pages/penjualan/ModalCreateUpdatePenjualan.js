@@ -108,12 +108,10 @@ class Body extends React.Component {
         if (this.state.NOTA) {
             body.ID_NOTA = this.state.NOTA
         }
-        console.log(this.state.TANGGAL)
         body.TGL = this.state.TANGGAL;
 
         body.KODE_PELANGGAN = this.state.KODE_PELANGGAN;
         body.SUBTOTAL = this.state.SUBTOTAL;
-        console.log(body)
         
         e.preventDefault();
         e.stopPropagation();
@@ -140,8 +138,7 @@ class Body extends React.Component {
     }
 
     render() {
-        const tanggal = moment(this.state.TANGGAL).toDate();
-        console.log(tanggal)
+        const ISO_DATE_TIME = "YYYY-MM-DD";
         if (this.state.isLoading) return <div>Loading data please wait ...</div>
         if (this.state.isError) return <div>THERE IS SOME ERROR. TRY TO LOAD IT AGAIN</div>
         if (this.state.isSubmitting) return <div>{this.state.isCreate ? "Creating Penjualan" : "Updating Penjualan"} please wait ...</div>
@@ -167,8 +164,7 @@ class Body extends React.Component {
                             <DatePicker
                             selected={moment(this.state.TANGGAL).toDate()}
                             onChange={date => {
-                                console.log(date)
-                                this.handleChange("TANGGAL", date)}}
+                                this.handleChange("TANGGAL", moment(date).format(ISO_DATE_TIME))}}
                             className='form-control'
                             // showTimeSelect
                             // placeholderText='Datetime start'
