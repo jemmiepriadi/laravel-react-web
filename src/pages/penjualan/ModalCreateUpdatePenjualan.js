@@ -6,9 +6,11 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Select from "react-select";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker';
 
 import { Button, InputGroup, Modal } from 'react-bootstrap';
-import { DatePicker } from 'antd';
+// import { DatePicker } from 'antd';
 
 import * as PenjualansApi from '../../apis/penjualanApi';
 // import { DatePicker } from 'rsuite';
@@ -136,6 +138,7 @@ class Body extends React.Component {
     }
 
     render() {
+        const ISO_DATE_TIME = "YYYY-MM-DD";
         if (this.state.isLoading) return <div>Loading data please wait ...</div>
         if (this.state.isError) return <div>THERE IS SOME ERROR. TRY TO LOAD IT AGAIN</div>
         if (this.state.isSubmitting) return <div>{this.state.isCreate ? "Creating Penjualan" : "Updating Penjualan"} please wait ...</div>
@@ -159,13 +162,15 @@ class Body extends React.Component {
                     <Form.Label column sm={'2'}>Penjualan TANGGAL:</Form.Label>        
                     <Col sm={'10'}>
                             <DatePicker
-                            selected={moment(this.state.TANGGAL)}
-                            onChange={date => this.handleChange("TANGGAL", date)}
+                            selected={moment(this.state.TANGGAL).toDate()}
+                            onChange={date => {
+                                this.handleChange("TANGGAL", moment(date).format(ISO_DATE_TIME))}}
                             className='form-control'
                             // showTimeSelect
                             // placeholderText='Datetime start'
-                            // dateFormat='dd-MM-yyyy '
-                            format={'DD/MM/YYYY'}
+                            dateFormat='dd-MM-yyyy '
+                            // value={moment(this.state.TANGGAL)}
+                            // format={'DD/MM/YYYY'}
                         />
                     </Col>
                 </Form.Group>
